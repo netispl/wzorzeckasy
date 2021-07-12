@@ -1,0 +1,59 @@
+- pause:
+    prompt: "Formatuje dysk /dev/{{ dysk }}, rozmiar {{ hostvars[inventory_hostname]['ansible_devices'][ dysk ]['size'] }}"
+    seconds: 10
+
+- name: Odmontownie dysku
+  mount:
+    path: "{{ montowanie }}"
+    src: "/dev/{{ dysk }}{{ partycja_glowna_efi }}"
+    state: unmounted
+
+- name: Sprawdzanie dysku
+  parted:
+    device: "/dev/{{ dysk }}"
+    unit: GB
+  register: dysk_info
+
+- name: Usuwam wszytskie pratycje z dysku /dev/{{ dysk }}
+  parted:
+    device: "/dev/{{ dysk }}"
+    number: "{{ item.num }}"
+    state: absent
+  with_items:
+   - "{{ dysk_info.partitions }}"
+
+- name: Tworzenie partycji EFI na dysku /dev/{{ dysk }}
+  parted:
+    device: "/dev/{{ dysk }}"
+    number: "{{ partycja_efi | regex_replace('p') }}"
+    state: present
+    flags: boot, esp
+    label: gpt
+    part_end: 512MiB
+    unit: MB
+  register: part_1
+
+- name: Tworzenie partycji glownej na dysku /dev/{{ dysk }}
+  parted:
+    device: "/dev/{{ dysk }}"
+    number: "{{ partycja_glowna_efi | regex_replace('p') }}"
+    state: present
+    part_start: 512MiB
+    unit: MB
+    label: gpt
+  register: part_2
+
+- name: Formatowanie partycji /dev/{{ dysk }}{{ partycja_efi }}
+  filesystem:
+    fstype: vfat
+    dev: "/dev/{{ dysk }}{{ partycja_efi }}"
+    force: yes
+    opts: -F32
+  when: part_1 is changed
+
+- name: Formatowanie partycji /dev/{{ dysk }}{{ partycja_glowna_efi }}
+  filesystem:
+    fstype: "{{ fs }}"
+    dev: "/dev/{{ dysk }}{{ partycja_glowna_efi }}"
+    force: yes
+  when: part_2 is changed

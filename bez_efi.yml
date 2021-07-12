@@ -1,0 +1,74 @@
+---
+
+- name: Tworze punkt montowania
+  file:
+    path: "{{ montowanie }}"
+    state: directory
+    mode: 0755
+
+- name: Montuje dysk
+  mount:
+    path: "{{ montowanie }}"
+    src: "/dev/{{ dysk }}{{ partycja_glowna }}"
+    fstype: "{{ fs }}"
+    fstab: /tmp/fstab.tmp
+    state: mounted
+
+- name: Pobieram sume kontrolna wzorca kasy
+  get_url:
+    url: "http://91.239.155.79/{{ wzorzecKASY }}.md5sum"
+    dest: "{{ montowanie }}/"
+    tmp_dest: "{{ montowanie }}/"
+
+- name: Zapis sumy kontrolnej wzorca kasy
+  shell: "cat {{ montowanie }}/{{ wzorzecKASY }}.md5sum | awk '{ print $1 }'"
+  register: md5sum
+
+- name:  Pobranie wzorca kasy - Przy łączu 100 Mb/s trwa to około 5 minut
+  get_url:
+    url: "http://91.239.155.79/{{ wzorzecKASY }}"
+    dest: "{{ montowanie }}/"
+    tmp_dest: "{{ montowanie }}/"
+    timeout: 60
+    checksum: "md5:{{ md5sum.stdout }}"
+
+- name: Instaluje
+  unarchive:
+    src: "{{ montowanie }}/{{ wzorzecKASY }}"
+    dest: "{{ montowanie }}/"
+    remote_src: yes
+
+- name: Zmiana systemu plikow w fstab
+  replace:
+    regexp: 'ext4'
+    replace: "{{ fs }}"
+    dest: "{{ montowanie }}/etc/fstab"
+
+- name: Montuje proc dev sys
+  mount:
+    path: "{{ montowanie }}/{{ item }}"
+    src: "{{ item }}"
+    fstab: /tmp/fstab.bind
+    state: mounted
+    fstype: ext4
+    opts: bind
+  with_items:
+    - /proc
+    - /dev
+    - /sys
+
+- name: Dodanie do fstab
+  mount:
+    src: "/dev/{{ dysk }}{{ partycja_glowna }}"
+    path: /
+    state: present
+    fstab: "{{ montowanie }}/etc/fstab"
+    fstype: "{{ fs }}"
+    opts: errors=remount-ro
+    passno: '1'
+
+- name: Instalacja GRUB-a
+  command: "chroot {{ montowanie }} grub-install /dev/{{ dysk }}"
+
+- name: Update grub
+  command: "chroot {{ montowanie }} update-grub2"
