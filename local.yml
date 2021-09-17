@@ -18,6 +18,11 @@
       when: ansible_architecture != "x86_64"
 
     - pause:
+        prompt: 'AKTUALNIE INSTALACJA NIE DZIALA PRAWIDLOWO - PROSZE NIE UZYWAC - NETIS'
+        echo: yes
+      
+
+    - pause:
         prompt: 'PODAJ WERSJE KASY DO INSTALACJI: "xkasnet 2.2.14+ (18) / xkasnet 2.2.16 premium (20)" wybierz i wpisz numer: 18 lub 20'
         echo: yes
       register: ubuntu_wer
