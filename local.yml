@@ -17,15 +17,13 @@
       fail: msg="SYSTEM LIVE MUSI BYC 64-bitowy"
       when: ansible_architecture != "x86_64"
 
-#    - pause:
-#        prompt: 'PODAJ WERSJE KASY DO INSTALACJI: "xkasnet 2.2.14+ (18) / xkasnet 2.2.16 premium (20)" wybierz i wpisz numer: 18 lub 20'
-#        echo: yes
-#      register: ubuntu_wer
-
-#wzorzecKASY: "kasa_wzor_czysty_{{ ubuntu_wer.user_input }}.04.tar.gz"
+    - pause:
+        prompt: 'PODAJ WERSJE KASY DO INSTALACJI: "xkasnet 2.2.14+ (18) / wpisz numer: 18'
+        echo: yes
+      register: ubuntu_wer
 
     - set_fact:
-        wzorzecKASY: "kasa_wzor_czysty_18.04.tar.gz"
+        wzorzecKASY: "kasa_wzor_czysty_{{ ubuntu_wer.user_input }}.04.tar.gz"
 
     - name: Wykrywam dyski
       set_fact:
@@ -81,7 +79,6 @@
         partycja_glowna_efi: p2
       when: dysk | regex_search('nvm')
 
-
     - name: BOOT EFI
       import_tasks: boot_efi.yml
       when: efi == "tak"
@@ -97,6 +94,9 @@
     - name: instalacja EFI
       import_tasks: efi.yml
       when: efi == "tak"
+
+    - name: instalacja kasy
+      import_tasks: kasa.yml
 
     - debug:
         msg: "Instalacja zostala zakonczona. Zrestaruj komputer."
