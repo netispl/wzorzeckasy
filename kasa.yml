@@ -1,3 +1,8 @@
+- name: Dodanie DNS
+  lineinfile:
+    path: "{{ montowanie }}/etc/resolv.conf"
+    line: nameserver 8.8.8.8
+
 - name: loglevel
   command: "chroot {{ montowanie }} echo 'LOG_NOTICE' > /home/kasa/LOGLEVEL"
 
