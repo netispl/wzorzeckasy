@@ -3,14 +3,14 @@
     path: "{{ montowanie }}/etc/resolv.conf"
     line: nameserver 8.8.8.8
 
-- name: loglevel
-  command: "chroot {{ montowanie }} echo 'LOG_NOTICE' > /home/kasa/LOGLEVEL"
-
-- name: config
-  command: "chroot {{ montowanie }} echo 'kasa.config-1024x768' > /home/kasa/CONFIG"
-
 - name: apt update
   command: chroot "{{ montowanie }}" apt update
 
 - name: apt instalacja pakietów
   command: chroot "{{ montowanie }}" apt install --yes xkasnet-client-2.2.17 x-pos-launcher kasnet-server-2.1.335 kasnet-src-2.1.335
+
+- name: loglevel
+  command: "chroot {{ montowanie }} echo 'LOG_NOTICE' > /home/kasa/LOGLEVEL"
+
+- name: config
+  command: "chroot {{ montowanie }} echo 'kasa.config-1024x768' > /home/kasa/CONFIG"
