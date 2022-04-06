@@ -10,7 +10,7 @@
   command: chroot "{{ montowanie }}" apt install --yes xkasnet-client-2.2.17 x-pos-launcher kasnet-server-2.1.335 kasnet-src-2.1.335
 
 - name: loglevel
-  command: "chroot {{ montowanie }} echo 'LOG_NOTICE' > /home/kasa/LOGLEVEL"
+  shell: "echo 'LOG_NOTICE' > {{ montowanie }}/home/kasa/LOGLEVEL"
 
 - name: config
-  command: "chroot {{ montowanie }} echo 'kasa.config-1024x768' > /home/kasa/CONFIG"
+  shell: "echo 'kasa.config-1024x768' > {{ montowanie }}/home/kasa/CONFIG"
