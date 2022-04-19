@@ -97,7 +97,7 @@
 
     - name: instalacja kasy
       import_tasks: kasa.yml
-      when: ubuntu_wer.user_input == 22
+      when: ubuntu_wer.user_input == "22"
 
     - debug:
         msg: "Instalacja zostala zakonczona. Zrestaruj komputer."
