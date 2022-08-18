@@ -7,7 +7,7 @@
   command: chroot "{{ montowanie }}" apt update
 
 - name: apt instalacja pakietów
-  command: chroot "{{ montowanie }}" apt install --yes xkasnet-client-2.2.17=2.2.17r202207131449~jammy-1 xkasnet-libnative-jni-2.2.17=2.2.17r202207131449~jammy-1 x-pos-launcher x-pos-tweaks-no-cursor kasnet-server-2.1.335 kasnet-src-2.1.335 kasnet-config-2.1.335 kasnet-libwaga-2.1.335 kasnet-tools-2.1.335
+  command: chroot "{{ montowanie }}" apt install --yes xkasnet-client-2.2.17=2.2.17r202208181402~jammy-1 xkasnet-libnative-jni-2.2.17=2.2.17r202208181402~jammy-1 x-pos-launcher x-pos-tweaks-no-cursor kasnet-server-2.1.335 kasnet-src-2.1.335 kasnet-config-2.1.335 kasnet-libwaga-2.1.335 kasnet-tools-2.1.335
 
 #- name: loglevel
 #  shell: "echo 'LOG_NOTICE' > {{ montowanie }}/home/kasa/LOGLEVEL"
@@ -26,4 +26,4 @@
 #    group: kasa
 
 - name: config
-  shell: "echo 'kasa.config-1024x768' > {{ montowanie }}/home/kasa/CONFIG"
+  shell: "echo 'kasa.config-1024x768' > {{ montowanie }}/home/kasa/CONFIG ; chown 1000:1000 {{ montowanie }}/home/kasa/CONFIG"
