@@ -18,7 +18,7 @@
       when: ansible_architecture != "x86_64"
 
     - pause:
-        prompt: 'PODAJ WERSJE KASY DO INSTALACJI: "xkasnet 2.2.14+ (18) / wpisz numer: 18'
+        prompt: 'PODAJ WERSJE UBUNTU DO INSTALACJI: "(18) xkasnet 2.2.14+  / (22) xkasnet 2.2.17"  wpisz numer: 18 lub 22'
         echo: yes
       register: ubuntu_wer
 
