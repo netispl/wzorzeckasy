@@ -21,7 +21,7 @@
 - name: zmiana configa openssl
   lineinfile:
     state: present
-    dest: "/etc/ssl/openssl.cnf"
+    dest: "{{ montowanie }}/etc/ssl/openssl.cnf"
     insertafter: '#.include filename'
     line: "{{ item }}"
   with_items:
@@ -29,7 +29,7 @@
 
 - name: zmiana configa openssl2
   blockinfile:
-    path: "/etc/ssl/openssl.cnf"
+    path: "{{ montowanie }}/etc/ssl/openssl.cnf"
     marker: "#"
     insertafter: "CipherString = DEFAULT:@SECLEVEL=2"
     block: |
