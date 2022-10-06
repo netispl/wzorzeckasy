@@ -17,3 +17,26 @@
 
 - name: config
   shell: "echo 'kasa.config-1024x768' > {{ montowanie }}/home/kasa/CONFIG ; chown 1000:1000 {{ montowanie }}/home/kasa/CONFIG"
+
+- name: zmiana configa openssl
+  lineinfile:
+    state: present
+    dest: "/etc/ssl/openssl.cnf"
+    insertafter: '#.include filename'
+    line: "{{ item }}"
+  with_items:
+    - 'openssl_conf = default_conf'
+
+- name: zmiana configa openssl2
+  blockinfile:
+    path: "/etc/ssl/openssl.cnf"
+    marker: "#"
+    insertafter: "CipherString = DEFAULT:@SECLEVEL=2"
+    block: |
+      [ default_conf ]
+      ssl_conf = ssl_sect
+      [ssl_sect]
+      system_default = ssl_default_sect
+      [ssl_default_sect]
+      MinProtocol = TLSv1.2
+      CipherString = DEFAULT:@SECLEVEL=0
