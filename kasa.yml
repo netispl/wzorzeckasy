@@ -46,6 +46,7 @@
 - name: zmiana configa openssl2
   blockinfile:
     path: "{{ montowanie }}/etc/ssl/openssl.cnf"
+    backup: yes
     insertafter: "CipherString = DEFAULT:@SECLEVEL=2"
     block: |
       [ default_conf ]
