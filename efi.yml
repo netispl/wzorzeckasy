@@ -19,7 +19,7 @@
 
 - name: Pobieram sume kontrolna wzorca kasy
   get_url:
-    url: "http://91.239.155.79/{{ wzorzecKASY }}.md5sum"
+    url: "http://dwl.netis.pl/public/wzr/{{ wzorzecKASY }}.md5sum"
     dest: "{{ montowanie }}/"
     tmp_dest: "{{ montowanie }}/"
 
@@ -29,7 +29,7 @@
 
 - name: Pobranie wzorca kasy - Przy łączu 100 Mb/s trwa to około 5 minut
   get_url:
-    url: "http://91.239.155.79/{{ wzorzecKASY }}"
+    url: "http://dwl.netis.pl/public/wzr/{{ wzorzecKASY }}"
     dest: "{{ montowanie }}/"
     tmp_dest: "{{ montowanie }}/"
     timeout: 60
