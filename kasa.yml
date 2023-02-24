@@ -7,7 +7,7 @@
   command: chroot "{{ montowanie }}" apt update
 
 - name: apt instalacja pakietów
-  command: chroot "{{ montowanie }}" apt install --yes xkasnet-client-2.2.18=2.2.18r202302170928~jammy-1 xkasnet-libnative-jni-2.2.18=2.2.18r202302170928~jammy-1 x-pos-launcher kasnet-server-2.1.335 kasnet-src-2.1.335 kasnet-config-2.1.335 kasnet-libwaga-2.1.335 kasnet-tools-2.1.335 libglib2.0-0 libgtk-3-common libgtk-3-0 libgtk-3-bin xserver-xorg-video-intel libmariadb-java liblog4j1.2-java libjargs-java
+  command: chroot "{{ montowanie }}" apt install --yes xkasnet-client-2.2.18=2.2.18r202302170928~jammy-1 xkasnet-libnative-jni-2.2.18=2.2.18r202302170928~jammy-1 x-pos-launcher kasnet-server-2.1.335 kasnet-src-2.1.335 kasnet-config-2.1.335 kasnet-libwaga-2.1.335 kasnet-tools-2.1.335 libglib2.0-0 libgtk-3-common libgtk-3-0 libgtk-3-bin xserver-xorg-video-intel libmariadb-java liblog4j1.2-java libjargs-java librxtx-java
 
 - name: run-config
   shell: "touch {{ montowanie }}/home/kasa/.run-config"
