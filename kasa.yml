@@ -18,6 +18,9 @@
 - name: config
   shell: "echo 'kasa.config-1024x768' > {{ montowanie }}/home/kasa/CONFIG ; chown 1000:1000 {{ montowanie }}/home/kasa/CONFIG"
 
+- name: config_x
+  shell: "echo 'xfwm4' > {{ montowanie }}/home/kasa/WINDOW_MANAGER ; chown 1000:1000 {{ montowanie }}/home/kasa/WINDOW_MANAGER"
+
 - name: zmiana configa openssl
   lineinfile:
     state: present
