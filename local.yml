@@ -19,7 +19,7 @@
 
     - pause:
         prompt: 'PODAJ WERSJE UBUNTU DO INSTALACJI: "(18) xkasnet 2.2.14+  / (22) xkasnet 2.2.18"  wpisz numer: 18 lub 22'
-        echo: yes
+        # echo: yes
       register: ubuntu_wer
 
     - set_fact:
@@ -63,7 +63,7 @@
 
     - pause:
         prompt: "CZY INSTALOWAĆ UEFI ? t/n"
-        echo: yes
+        # echo: yes
       register: uefi
       when: not ( dysk | regex_search('nvm'))
 
