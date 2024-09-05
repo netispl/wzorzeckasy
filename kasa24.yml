@@ -1,0 +1,61 @@
+- name: Dodanie DNS
+  lineinfile:
+    path: "{{ montowanie }}/etc/resolv.conf"
+    line: nameserver 8.8.8.8
+
+- name: apt update
+  command: chroot "{{ montowanie }}" apt update
+
+- name: apt instalacja pakietów
+  command: chroot "{{ montowanie }}" apt install --yes xkasnet-client-2.2.19 xkasnet-libnative-jni-2.2.19 x-pos-launcher kasnet-config-kasa-2.1.339-m07 kasnet-libwaga-kasa-2.1.339-m07 kasnet-monitor-kasa-2.1.339-m07 kasnet-server-kasa-2.1.339-m07 kasnet-src-kasa-2.1.339-m07 kasnet-tools-kasa-2.1.339-m07 libglib2.0-0 libgtk-3-common libgtk-3-0 libgtk-3-bin xserver-xorg-video-intel libmariadb-java liblog4j1.2-java libjargs-java librxtx-java
+
+- name: run-config
+  shell: "touch {{ montowanie }}/home/kasa/.run-config"
+
+- name: run-config chown
+  shell: "chown 1000:1000 {{ montowanie }}/home/kasa/.run-config"
+
+- name: config
+  shell: "echo 'kasa.config-1024x768' > {{ montowanie }}/home/kasa/CONFIG ; chown 1000:1000 {{ montowanie }}/home/kasa/CONFIG"
+
+- name: config_x
+  shell: "echo 'xfwm4' > {{ montowanie }}/home/kasa/WINDOW_MANAGER ; chown 1000:1000 {{ montowanie }}/home/kasa/WINDOW_MANAGER"
+
+- name: zmiana configa openssl
+  lineinfile:
+    state: present
+    dest: "{{ montowanie }}/etc/ssl/openssl.cnf"
+    insertafter: '#.include filename'
+    line: "{{ item }}"
+  with_items:
+    - 'openssl_conf = default_conf'
+
+#- name: zmiana configa openssl2
+#  lineinfile:
+#    state: present
+#    dest: "{{ montowanie }}/etc/ssl/openssl.cnf"
+#    insertafter: 'CipherString = DEFAULT:@SECLEVEL=2'
+#    line: "{{ item }}"
+#  with_items:
+#    - '[ default_conf ]'
+#    - 'ssl_conf = ssl_sect'
+#    - '[ssl_sect]'
+#    - 'system_default = ssl_default_sect'
+#    - '[ssl_default_sect]'
+#    - 'MinProtocol = TLSv1.2'
+#    - 'CipherString = DEFAULT:@SECLEVEL=0'
+
+
+- name: zmiana configa openssl2
+  blockinfile:
+    path: "{{ montowanie }}/etc/ssl/openssl.cnf"
+    backup: yes
+    insertafter: "CipherString = DEFAULT:@SECLEVEL=2"
+    block: |
+      [ default_conf ]
+      ssl_conf = ssl_sect
+      [ssl_sect]
+      system_default = ssl_default_sect
+      [ssl_default_sect]
+      MinProtocol = TLSv1.2
+      CipherString = DEFAULT:@SECLEVEL=0
