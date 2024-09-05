@@ -18,12 +18,17 @@
       when: ansible_architecture != "x86_64"
 
     - pause:
-        prompt: 'PODAJ WERSJE UBUNTU DO INSTALACJI: "(18) xkasnet 2.2.14+  / (22) xkasnet 2.2.18"  wpisz numer: 18 lub 22'
+        prompt: 'PODAJ WERSJE UBUNTU DO INSTALACJI: "(22) xkasnet 2.2.19+"  wpisz numer: 22'
         echo: yes
       register: ubuntu_wer
 
     - set_fact:
         wzorzecKASY: "kasa_wzor_czysty_{{ ubuntu_wer.user_input }}.04.tar.gz"
+      when: ubuntu_wer.user_input == '22' or ubuntu_wer.user_input == '24'
+
+    - set_fact:
+        wzorzecKASY: "kasa_wzor_czysty_24.04.tar.gz"
+      when: ubuntu_wer.user_input|lower == 'mago'
 
     - name: Wykrywam dyski
       set_fact:
