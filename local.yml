@@ -24,7 +24,7 @@
 
     - set_fact:
         wzorzecKASY: "kasa_wzor_czysty_{{ ubuntu_wer.user_input }}.04.tar.gz"
-      when: ubuntu_wer.user_input == '22' or ubuntu_wer.user_input == '24'
+      when: ubuntu_wer.user_input == '22' or ubuntu_wer.user_input == '24' or ubuntu_wer.user_input == '18'
 
     - set_fact:
         wzorzecKASY: "kasa_wzor_czysty_24.04.tar.gz"
