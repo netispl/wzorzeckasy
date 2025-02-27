@@ -21,6 +21,9 @@
 - name: config_x
   shell: "echo 'xfwm4' > {{ montowanie }}/home/kasa/WINDOW_MANAGER ; chown 1000:1000 {{ montowanie }}/home/kasa/WINDOW_MANAGER"
 
+- name: x
+  shell: "chmod +x {{ montowanie }}/etc/init.d/df_daemon"
+
 - name: zmiana configa openssl
   lineinfile:
     state: present
