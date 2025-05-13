@@ -24,6 +24,20 @@
 - name: x
   shell: "chmod +x {{ montowanie }}/etc/init.d/df_daemon"
 
+- name:  Intel Graphics w xorg.conf.d
+  ansible.builtin.blockinfile:
+    path: "{{ montowanie }}/usr/share/X11/xorg.conf.d/80-intel.conf"
+    marker: "# {mark} ANSIBLE INTEL GRAPHICS"
+    block: |
+      Section "Device"
+          Identifier "Intel Graphics"
+          Driver "Intel"
+          Option "DRI" "3"
+          Option      "AccelMethod" "uxa"
+      EndSection
+    create: yes
+    backup: yes
+
 - name: zmiana configa openssl
   lineinfile:
     state: present
