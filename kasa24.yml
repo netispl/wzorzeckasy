@@ -33,7 +33,6 @@
           Identifier "Intel Graphics"
           Driver "Intel"
           Option "DRI" "3"
-#          Option      "AccelMethod" "uxa"
       EndSection
     create: yes
     backup: yes
