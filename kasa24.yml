@@ -89,3 +89,29 @@
       [ssl_default_sect]
       MinProtocol = TLSv1.2
       CipherString = DEFAULT:@SECLEVEL=0
+
+- name: Ustaw DefaultTimeoutStopSec
+  lineinfile:
+    path: "{{ montowanie }}/etc/systemd/system.conf"
+    regexp: '^#?DefaultTimeoutStopSec='
+    line: 'DefaultTimeoutStopSec=10s'
+
+- name: Ustaw DefaultTimeoutAbortSec
+  lineinfile:
+    path: "{{ montowanie }}/etc/systemd/system.conf"
+    regexp: '^#?DefaultTimeoutAbortSec='
+    line: 'DefaultTimeoutAbortSec=15s'
+
+- name: Ustaw DefaultTimeoutStopSec
+  lineinfile:
+    path: "{{ montowanie }}/etc/systemd/user.conf"
+    regexp: '^#?DefaultTimeoutStopSec='
+    line: 'DefaultTimeoutStopSec=10s'
+
+- name: Ustaw DefaultTimeoutAbortSec
+  lineinfile:
+    path: "{{ montowanie }}/etc/systemd/user.conf"
+    regexp: '^#?DefaultTimeoutAbortSec='
+    line: 'DefaultTimeoutAbortSec=15s'
+
+
