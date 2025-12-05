@@ -17,6 +17,9 @@
       fail: msg="SYSTEM LIVE MUSI BYC 64-bitowy"
       when: ansible_architecture != "x86_64"
 
+    - name: Odmontowuje swap
+      command: "swapoff -a"
+
     - pause:
         prompt: 'PODAJ WERSJE UBUNTU DO INSTALACJI: "(22) xkasnet 2.2.19+"  wpisz numer: 22 / "(24) xkasnet 2.2.20+" wpisz numer: 24'
         echo: yes
