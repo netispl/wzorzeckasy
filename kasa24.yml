@@ -24,6 +24,9 @@
 - name: x
   shell: "chmod +x {{ montowanie }}/etc/init.d/df_daemon"
 
+- name: systemd-networkd-wait-online
+  shell: "ln -sf /dev/null {{ montowanie }}/etc/systemd/system/systemd-networkd-wait-online.service"
+
 - name:  Intel Graphics w xorg.conf.d
   blockinfile:
     path: "{{ montowanie }}/usr/share/X11/xorg.conf.d/80-intel.conf"
