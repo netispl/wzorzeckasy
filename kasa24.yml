@@ -27,6 +27,11 @@
 - name: systemd-networkd-wait-online
   shell: "ln -sf /dev/null {{ montowanie }}/etc/systemd/system/systemd-networkd-wait-online.service"
 
+- name: df_daemon - szybkie zatrzymywanie 
+  shell: |
+    mkdir -p {{ montowanie }}/etc/systemd/system/df_daemon.service.d
+    printf '[Service]\nTimeoutStopSec=1s\nKillMode=control-group\n' > {{ montowanie }}/etc/systemd/system/df_daemon.service.d/override.conf
+
 - name:  Intel Graphics w xorg.conf.d
   blockinfile:
     path: "{{ montowanie }}/usr/share/X11/xorg.conf.d/80-intel.conf"
