@@ -111,5 +111,10 @@
       import_tasks: kasa24.yml
       when: ubuntu_wer.user_input == "24"
 
+    - name: instalacja kasy26
+      import_tasks: kasa26.yml
+      when: ubuntu_wer.user_input == "26"
+
+
     - debug:
         msg: "Instalacja zostala zakonczona. Zrestaruj komputer."

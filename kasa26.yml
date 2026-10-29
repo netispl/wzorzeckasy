@@ -1,0 +1,26 @@
+- name: Dodanie DNS
+  lineinfile:
+    path: "{{ montowanie }}/etc/resolv.conf"
+    line: nameserver 8.8.8.8
+
+- name: apt update
+  command: chroot "{{ montowanie }}" apt update
+
+- name: apt instalacja pakietów
+  command: chroot "{{ montowanie }}" apt install --yes xkasnet-client-3.26.42.6 xkasnet-libnative-jni-3.26.42.6 x-pos-launcher kasnet-config-kasa-3.26.42 kasnet-libwaga-kasa-3.26.42 kasnet-monitor-kasa-3.26.42 kasnet-server-kasa-3.26.42 kasnet-src-kasa-3.26.42 kasnet-tools-kasa-3.26.42 joe #libglib2.0-0 libgtk-3-common libgtk-3-0 libgtk-3-bin xserver-xorg-video-intel libmariadb-java liblog4j1.2-java libjargs-java librxtx-java joe
+
+- name: run-config
+  shell: "touch {{ montowanie }}/home/kasa/.run-config"
+
+- name: run-config chown
+  shell: "chown 1000:1000 {{ montowanie }}/home/kasa/.run-config"
+
+- name: config
+  shell: "echo 'kasa.config-1024x768' > {{ montowanie }}/home/kasa/CONFIG ; chown 1000:1000 {{ montowanie }}/home/kasa/CONFIG"
+
+- name: config_x
+  shell: "echo 'xfwm4' > {{ montowanie }}/home/kasa/WINDOW_MANAGER ; chown 1000:1000 {{ montowanie }}/home/kasa/WINDOW_MANAGER"
+
+- name: x
+  shell: "chmod +x {{ montowanie }}/etc/init.d/df_daemon"
+
